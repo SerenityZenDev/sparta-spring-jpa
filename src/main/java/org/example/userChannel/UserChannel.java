@@ -1,6 +1,7 @@
 package org.example.userChannel;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,11 +23,12 @@ import org.example.user.User;
 
 // jpa
 @Entity
-@IdClass(UserChannelId.class)
 public class UserChannel {
     /**
      * 컬럼 - 연관관계 컬럼을 제외한 컬럼을 정의합니다.
      */
+    @EmbeddedId
+    private UserChannelId userChannelId;
 
 
     /**
@@ -40,14 +43,14 @@ public class UserChannel {
     /**
      * 연관관계 - Foreign Key 값을 따로 컬럼으로 정의하지 않고 연관 관계로 정의합니다.
      */
-    @Id
+
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @MapsId("user_id")
     private User user;
 
-    @Id
+
     @ManyToOne
-    @JoinColumn(name = "channel_id", nullable = false)
+    @MapsId("channel_id")
     private Channel channel;
 
     /**
