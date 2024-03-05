@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select u , u.password AS customField FROM User u WHERE u.username = ?1")
+    List<User> findByUsernameWithCustomField(String username, Sort sort);
+
+    @Query("select u  FROM User u WHERE u.username = ?1")
     List<User> findByUsername(String username, Sort sort);
 
 }
