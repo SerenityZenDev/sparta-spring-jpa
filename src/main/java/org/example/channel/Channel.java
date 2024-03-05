@@ -1,5 +1,6 @@
 package org.example.channel;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -58,10 +59,10 @@ public class Channel {
     /**
      * 연관관계 - Foreign Key 값을 따로 컬럼으로 정의하지 않고 연관 관계로 정의합니다.
      */
-    @OneToMany(mappedBy = "channel")
+    @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Thread> threads = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "channel")
+    @OneToMany(mappedBy = "channel" , cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserChannel> userChannels = new LinkedHashSet<>();
 
     /**

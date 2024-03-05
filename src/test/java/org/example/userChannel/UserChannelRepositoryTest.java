@@ -27,16 +27,15 @@ class UserChannelRepositoryTest {
     private UserChannelRepository userChannelRepository;
 
     @Test
-    void userJoinChannelTest(){
+    void userJoinChannelWithCascadeTest(){
         // given
         var newChannel = Channel.builder().name("new-group").build();
         var newUser = User.builder().username("new-user").password("new-pass").build();
-        var newUserChannel = newChannel.joinUser(newUser);
+        newChannel.joinUser(newUser);
 
         // when
         var saveChannel = channelRepository.insertChannel(newChannel);
         var savedUser = userRepository.insertUser(newUser);
-        var savedUserChannel = userChannelRepository.insertUserChannel(newUserChannel);
 
         // then
         var foundChannel = channelRepository.selectChannel(saveChannel.getId());
@@ -44,4 +43,6 @@ class UserChannelRepositoryTest {
             .map(UserChannel::getChannel)
             .anyMatch(name -> name.equals(newChannel.getName()));
     }
+
+
 }
