@@ -1,5 +1,7 @@
 package org.example.my;
 
+import java.util.List;
+import org.assertj.core.api.Assertions;
 import org.example.user.User;
 import org.example.user.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -27,8 +29,22 @@ public class MyUserRepositoryTest {
 
         // when
         userRepository.delete(newUser);
+    }
 
+    @Test
+    void myUserRepositoryFindNameAllTest() {
+        // given
+        var newUser1 = User.builder().username("newUser1").password("newPassword1").build();
+        var newUser2 = User.builder().username("newUser2").password("newPassword2").build();
+        userRepository.save(newUser1);
+        userRepository.save(newUser2);
 
+        // when
+        var userNameList = userRepository.findNameAll();
+
+        // then
+        Assertions.assertThat(
+            userNameList.containsAll(List.of(newUser1.getUsername(), newUser2.getUsername())));
     }
 
 }

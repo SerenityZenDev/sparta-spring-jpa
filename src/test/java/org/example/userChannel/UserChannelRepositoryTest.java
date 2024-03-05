@@ -33,7 +33,7 @@ class UserChannelRepositoryTest {
 
         // when
         var saveChannel = channelRepository.insertChannel(newChannel);
-        var savedUser = userRepository.findByUsername(newUser.getUsername());
+        // var savedUser = userRepository.findByUsername(newUser.getUsername());
 
         // then
         var foundChannel = channelRepository.selectChannel(saveChannel.getId());
