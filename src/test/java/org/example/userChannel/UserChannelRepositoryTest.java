@@ -2,6 +2,7 @@ package org.example.userChannel;
 
 import org.example.channel.Channel;
 import org.example.channel.ChannelRepository;
+import org.example.common.PageDTO;
 import org.example.user.User;
 import org.example.user.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -68,6 +69,26 @@ class UserChannelRepositoryTest {
         var users3 = userRepository.findByUsername("new_user",
             JpaSort.unsafe("LENGTH(password)"));
         assert users3.get(0).getPassword().equals(newUser3.getPassword());
+
+    }
+
+    @Test
+    void pageDTOTest() {
+        // given
+        var newUser1 = User.builder().username("new_user").password("new-pass1").build();
+        var newUser2 = User.builder().username("new_user").password("new-pass2").build();
+        var newUser3 = User.builder().username("new_user").password("new-pass3").build();
+        userRepository.save(newUser1);
+        userRepository.save(newUser2);
+        userRepository.save(newUser3);
+        var pageDTO = new PageDTO(1, 2, "password");
+
+        // when
+        var page = userRepository.findAll(pageDTO.toPageable());
+
+        // then
+        assert page.getContent().size() == 2;
+        
 
     }
 
