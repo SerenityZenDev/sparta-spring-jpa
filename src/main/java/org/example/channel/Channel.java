@@ -41,8 +41,7 @@ public class Channel {
     private Type type;
 
 
-
-    private enum Type{
+    public enum Type {
         PULBIC, PRIVATE
     }
 
@@ -62,7 +61,7 @@ public class Channel {
     @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Thread> threads = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "channel" , cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserChannel> userChannels = new LinkedHashSet<>();
 
     /**
@@ -72,7 +71,7 @@ public class Channel {
         this.threads.add(thread);
     }
 
-    public UserChannel joinUser(User user){
+    public UserChannel joinUser(User user) {
         var userChannel = UserChannel.builder().user(user).channel(this).build();
         this.userChannels.add(userChannel);
         user.getUserChannels().add(userChannel);

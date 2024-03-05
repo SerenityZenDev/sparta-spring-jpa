@@ -1,8 +1,7 @@
 package org.example.channel;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.example.user.User;
+import com.querydsl.core.types.Predicate;
+import java.util.Optional;
 import org.example.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +20,31 @@ class ChannelRepositoryTest {
     private ChannelRepository channelRepository;
 
     @Test
-    void insertSelectGroupTest(){
+    void insertSelectGroupTest() {
         // given
         var newChannel = Channel.builder().name("new-group").build();
 
         // when
-        var saveChannel = channelRepository.insertChannel(newChannel);
+        var saveChannel = channelRepository.save(newChannel);
 
         // then
-        var foundChannel = channelRepository.selectChannel(saveChannel.getId());
-        assert foundChannel.getId().equals(saveChannel.getId());
+        var foundChannel = channelRepository.findById(saveChannel.getId());
+        assert foundChannel.get().getId().equals(saveChannel.getId());
     }
 
+    @Test
+    void queryDslTest() {
+        // given
+        var newChannel = Channel.builder().name("melue").build();
+        channelRepository.save(newChannel);
+
+        Predicate predicate = QChannel.channel
+            .name.equalsIgnoreCase("melue");
+
+        // when
+        Optional<Channel> optional = channelRepository.findOne(predicate);
+
+        // then
+        assert optional.get().getName().equals(newChannel.getName());
+    }
 }

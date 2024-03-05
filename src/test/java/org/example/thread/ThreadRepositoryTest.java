@@ -1,11 +1,8 @@
 package org.example.thread;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.Set;
 import org.example.channel.Channel;
 import org.example.channel.ChannelRepository;
-import org.example.thread.ThreadRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Rollback(false)
 class ThreadRepositoryTest {
+
     @Autowired
     private ThreadRepository threadRepository;
 
@@ -23,7 +21,7 @@ class ThreadRepositoryTest {
     private ChannelRepository channelRepository;
 
     @Test
-    void insertSelectThreadTest(){
+    void insertSelectThreadTest() {
         // given
         var newChannel = Channel.builder().name("new-group").build();
         var newThread = Thread.builder().message("new-message").build();
@@ -32,29 +30,29 @@ class ThreadRepositoryTest {
         newThread2.setChannel(newChannel);
 
         // when
-        var saveChannel = channelRepository.insertChannel(newChannel);
+        var saveChannel = channelRepository.save(newChannel);
         var saveThread = threadRepository.insertChannel(newThread);
         var saveThread2 = threadRepository.insertChannel(newThread2);
 
         // then
-        var foundChannel = channelRepository.selectChannel(saveChannel.getId());
-        assert foundChannel.getThreads().containsAll(Set.of(saveThread, saveThread2));
+        var foundChannel = channelRepository.findById(saveChannel.getId());
+        assert foundChannel.get().getThreads().containsAll(Set.of(saveThread, saveThread2));
     }
 
     @Test
-    void deleteThreadbyOrphanRemovalTest(){
+    void deleteThreadbyOrphanRemovalTest() {
         // given
         var newChannel = Channel.builder().name("new-group").build();
         var newThread = Thread.builder().message("new-message").build();
         var newThread2 = Thread.builder().message("new2-message").build();
         newThread.setChannel(newChannel);
         newThread2.setChannel(newChannel);
-        var saveChannel = channelRepository.insertChannel(newChannel);
+        var saveChannel = channelRepository.save(newChannel);
         var saveThread = threadRepository.insertChannel(newThread);
         var saveThread2 = threadRepository.insertChannel(newThread2);
         // when
-        var foundChannel = channelRepository.selectChannel(saveChannel.getId());
-        foundChannel.getThreads().remove(saveThread);
+        var foundChannel = channelRepository.findById(saveChannel.getId());
+        foundChannel.get().getThreads().remove(saveThread);
 
         // then
 //        var foundChannel = channelRepository.selectChannel(saveChannel.getId());

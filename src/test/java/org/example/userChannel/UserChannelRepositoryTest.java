@@ -35,12 +35,12 @@ class UserChannelRepositoryTest {
         newChannel.joinUser(newUser);
 
         // when
-        var saveChannel = channelRepository.insertChannel(newChannel);
+        var saveChannel = channelRepository.save(newChannel);
         // var savedUser = userRepository.findByUsername(newUser.getUsername());
 
         // then
-        var foundChannel = channelRepository.selectChannel(saveChannel.getId());
-        assert foundChannel.getUserChannels().stream()
+        var foundChannel = channelRepository.findById(saveChannel.getId());
+        assert foundChannel.get().getUserChannels().stream()
             .map(UserChannel::getChannel)
             .anyMatch(name -> name.equals(newChannel.getName()));
     }
@@ -88,7 +88,7 @@ class UserChannelRepositoryTest {
 
         // then
         assert page.getContent().size() == 2;
-        
+
 
     }
 
