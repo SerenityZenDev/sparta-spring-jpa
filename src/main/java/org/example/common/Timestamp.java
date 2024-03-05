@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class Timestamp {
 
+
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;

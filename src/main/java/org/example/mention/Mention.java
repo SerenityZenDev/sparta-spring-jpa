@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.common.Timestamp;
 import org.example.thread.Thread;
 import org.example.user.User;
 
@@ -17,7 +18,7 @@ import org.example.user.User;
 
 // jpa
 @Entity
-public class Mention {
+public class Mention extends Timestamp {
 
     /**
      * 컬럼 - 연관관계 컬럼을 제외한 컬럼을 정의합니다.

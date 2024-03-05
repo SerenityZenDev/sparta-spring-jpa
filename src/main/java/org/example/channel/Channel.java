@@ -9,12 +9,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.common.Timestamp;
 import org.example.thread.Thread;
 import org.example.user.User;
 import org.example.userChannel.UserChannel;
@@ -25,7 +28,7 @@ import org.example.userChannel.UserChannel;
 
 // jpa
 @Entity
-public class Channel {
+public class Channel extends Timestamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -76,10 +79,31 @@ public class Channel {
         this.userChannels.add(userChannel);
         user.getUserChannels().add(userChannel);
         return userChannel;
+
     }
 
     /**
      * 서비스 메소드 - 외부에서 엔티티를 수정할 메소드를 정의합니다. (단일 책임을 가지도록 주의합니다.)
+     */
+
+    /**
+     * 라이프 사이클 메소드
+     */
+
+    @PrePersist
+    public void prePersist() {
+        super.updateModifiedAt();
+        super.updateCreatedAt();
+    }
+
+    @PreUpdate
+    public void PreUpdate() {
+        super.updateModifiedAt();
+    }
+
+    /*
+    과제 : ContextHolder + 엔티티 라이프 사이클 이벤트(@PrePersist, @PreUpdate)
+    를 사용해서 createdBy, modifiedBy를 구현
      */
 
 }
