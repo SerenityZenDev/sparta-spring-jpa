@@ -1,25 +1,9 @@
 package org.example.thread;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import org.example.channel.Channel;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
-@Repository
-public class ThreadRepository {
-    @PersistenceContext
-    EntityManager entityManager;
+public interface ThreadRepository extends JpaRepository<Thread, Long>,
+    QuerydslPredicateExecutor<Thread> {
 
-    public Thread insertChannel(Thread thread) {
-        entityManager.persist(thread);
-        return thread;
-    }
-
-    public Thread selectChannel(Long id) {
-        return entityManager.find(Thread.class, id);
-    }
-
-    public Channel selectThread(Long id) {
-        return entityManager.find(Channel.class, id);
-    }
 }

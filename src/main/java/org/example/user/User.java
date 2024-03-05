@@ -17,6 +17,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.mention.Mention;
 import org.example.userChannel.UserChannel;
 
 // lombok
@@ -25,7 +26,7 @@ import org.example.userChannel.UserChannel;
 
 // jpa
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
 
     /**
@@ -49,7 +50,6 @@ public class User {
     private Address address;
 
 
-
     /**
      * 생성자 - 약속된 형태로만 생성가능하도록 합니다.
      */
@@ -62,8 +62,11 @@ public class User {
     /**
      * 연관관계 - Foreign Key 값을 따로 컬럼으로 정의하지 않고 연관 관계로 정의합니다.
      */
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     Set<UserChannel> userChannels = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    Set<Mention> mentions = new LinkedHashSet<>();
 
     /**
      * 연관관계 편의 메소드 - 반대쪽에는 연관관계 편의 메소드가 없도록 주의합니다.
