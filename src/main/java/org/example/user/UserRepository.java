@@ -1,10 +1,9 @@
 package org.example.user;
 
-import java.util.Optional;
-import org.springframework.data.repository.RepositoryDefinition;
+import org.example.my.MyRepository;
 
-@RepositoryDefinition(domainClass = User.class, idClass = Long.class)
-public interface UserRepository {
 
-    Optional<User> findByUsername(String username);
+public interface UserRepository extends MyRepository<User, Long> {
+
+
 }

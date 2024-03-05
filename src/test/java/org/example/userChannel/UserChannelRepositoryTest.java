@@ -1,10 +1,7 @@
 package org.example.userChannel;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.example.channel.Channel;
 import org.example.channel.ChannelRepository;
-import org.example.thread.ThreadRepository;
 import org.example.user.User;
 import org.example.user.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -17,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Rollback(false)
 class UserChannelRepositoryTest {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -27,7 +25,7 @@ class UserChannelRepositoryTest {
     private UserChannelRepository userChannelRepository;
 
     @Test
-    void userJoinChannelWithCascadeTest(){
+    void userJoinChannelWithCascadeTest() {
         // given
         var newChannel = Channel.builder().name("new-group").build();
         var newUser = User.builder().username("new-user").password("new-pass").build();
@@ -35,7 +33,7 @@ class UserChannelRepositoryTest {
 
         // when
         var saveChannel = channelRepository.insertChannel(newChannel);
-        var savedUser = userRepository.insertUser(newUser);
+        var savedUser = userRepository.findByUsername(newUser.getUsername());
 
         // then
         var foundChannel = channelRepository.selectChannel(saveChannel.getId());
