@@ -2,14 +2,15 @@ package org.example.mention;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.comment.Comment;
 import org.example.common.Timestamp;
-import org.example.thread.Thread;
 import org.example.user.User;
 
 // lombok
@@ -18,37 +19,35 @@ import org.example.user.User;
 
 // jpa
 @Entity
-public class Mention extends Timestamp {
+public class CommentMention extends Timestamp {
 
     /**
      * 컬럼 - 연관관계 컬럼을 제외한 컬럼을 정의합니다.
      */
     @EmbeddedId
-    private MentionId mentionId;
-
-    /**
-     * 컬럼 - 연관관계 컬럼을 제외한 컬럼을 정의합니다.
-     */
-    @ManyToOne
-    @MapsId("user_id")
-    User user;
-
-    @ManyToOne
-    @MapsId("thread_id")
-    Thread thread;
+    private CommentMentionId commentMentionId;
 
     /**
      * 생성자 - 약속된 형태로만 생성가능하도록 합니다.
      */
     @Builder
-    public Mention(User user, Thread thread) {
+    public CommentMention(User user, Comment comment) {
         this.user = user;
-        this.thread = thread;
+        this.comment = comment;
     }
 
     /**
      * 연관관계 - Foreign Key 값을 따로 컬럼으로 정의하지 않고 연관 관계로 정의합니다.
      */
+    @ManyToOne
+    @MapsId("userId")
+    @JoinColumn(name = "user_id")
+    User user;
+
+    @ManyToOne
+    @MapsId("commentId")
+    @JoinColumn(name = "comment_id")
+    Comment comment;
 
     /**
      * 연관관계 편의 메소드 - 반대쪽에는 연관관계 편의 메소드가 없도록 주의합니다.
