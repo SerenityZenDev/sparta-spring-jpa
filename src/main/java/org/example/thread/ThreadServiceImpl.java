@@ -2,16 +2,24 @@ package org.example.thread;
 
 import com.mysema.commons.lang.IteratorAdapter;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.example.channel.Channel;
+import org.example.common.PageDTO;
 import org.example.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.jaxb.SpringDataJaxb.PageDto;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@RequiredArgsConstructor
 @Service
 public class ThreadServiceImpl implements ThreadService {
 
-    @Autowired
-    ThreadRepository threadRepository;
+
+    private final ThreadRepository threadRepository;
+
+
 
     @Override
     public List<Thread> getMentionedThreadList(User user) {
@@ -21,6 +29,13 @@ public class ThreadServiceImpl implements ThreadService {
         var threads = threadRepository.findAll(predicate);
 
         return IteratorAdapter.asList(threads.iterator());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<Thread> selectMentionedThreadList(Long userId, PageDTO pageDto) {
+        var cond = ThreadSearchCond.builder().mentionedUserId(userId).build();
+        return threadRepository.search(cond, pageDto.toPageable());
     }
 
     @Override

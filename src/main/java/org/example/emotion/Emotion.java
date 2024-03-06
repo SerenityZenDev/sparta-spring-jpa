@@ -31,7 +31,7 @@ public class Emotion {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String body;
+    protected String body;
 
 
     /**

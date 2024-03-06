@@ -16,6 +16,7 @@ import org.example.user.User;
 
 // jpa
 @Entity
+
 public class ThreadEmotion extends Emotion {
     /**
      * 컬럼 - 연관관계 컬럼을 제외한 컬럼을 정의합니다.
@@ -24,12 +25,12 @@ public class ThreadEmotion extends Emotion {
     /**
      * 생성자 - 약속된 형태로만 생성가능하도록 합니다.
      */
-//    @Builder
-//    public ThreadEmotion(User user, Thread thread, String body) {
-//        this.user = user;
-//        this.thread = thread;
-//        this.body = body;
-//    }
+    @Builder
+    public ThreadEmotion(User user, Thread thread, String body) {
+        this.user = user;
+        this.thread = thread;
+        this.body = body;
+    }
 
     /**
      * 연관관계 - Foreign Key 값을 따로 컬럼으로 정의하지 않고 연관 관계로 정의합니다.

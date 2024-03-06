@@ -90,16 +90,7 @@ public class Channel extends Timestamp {
      * 라이프 사이클 메소드
      */
 
-    @PrePersist
-    public void prePersist() {
-        super.updateModifiedAt();
-        super.updateCreatedAt();
-    }
 
-    @PreUpdate
-    public void PreUpdate() {
-        super.updateModifiedAt();
-    }
 
     /*
     과제 : ContextHolder + 엔티티 라이프 사이클 이벤트(@PrePersist, @PreUpdate)

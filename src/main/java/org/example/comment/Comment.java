@@ -76,10 +76,10 @@ public class Comment {
         this.thread = thread;
     }
 
-//    public void addEmotion(User user, String body) {
-//        var emotion = CommentEmotion.builder().user(user).comment(this).body(body).build();
-//        this.emotions.add(emotion);
-//    }
+    public void addEmotion(User user, String body) {
+        var emotion = CommentEmotion.builder().user(user).comment(this).body(body).build();
+        this.emotions.add(emotion);
+    }
 
     /**
      * 서비스 메소드 - 외부에서 엔티티를 수정할 메소드를 정의합니다. (단일 책임을 가지도록 주의합니다.)
